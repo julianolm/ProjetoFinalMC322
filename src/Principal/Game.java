@@ -1,4 +1,4 @@
-package Executores;
+package Principal;
 
 public class Game {
 
@@ -9,9 +9,9 @@ public class Game {
 		System.out.println("Game started!");
 
 		while (!exit) {
-			drawBoard();
-			readInput();
-			updateBoard();
+			//drawBoard();
+			//readInput();
+			//updateBoard();
 		}
 
 		System.out.println("Game terminated. Bye!");
