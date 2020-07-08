@@ -1,5 +1,5 @@
 package itens;
 
-public abstract class Item {
+public interface Item {
 
 }

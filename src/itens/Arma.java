@@ -1,6 +1,6 @@
 package itens;
 
-public abstract class Arma extends Item {
+public abstract class Arma implements Item {
 	private TipoDeArma tipoDeArma;
 	private int numDadosDeAtaque;
 	

@@ -1,8 +1,8 @@
-package principal;
+package personagens.jogaveis;
 
 import itens.*;
 
-public abstract class Heroi {
+public abstract class Heroi implements Jogavel {
 	private String nome;
 	private int numDadosAtaque;
 	private int numDadosDefesa;
@@ -27,6 +27,7 @@ public abstract class Heroi {
 
 	}
 
+	@Override
 	public void adicionaArma(Arma arma) {
 		if (armas[0] == null) // Se a primeira mao nao esta com nenhuma arma, adiciona a arma a ela.
 			armas[0] = arma;
@@ -38,8 +39,10 @@ public abstract class Heroi {
 			guardaItem(arma);
 	}
 	
+	
 	// guardaItem eh um metodo de Heroi para guardar itens na mochila.
 	// A implementacao deste metodo usa o metodo adicionaItem da classe Mochila.
+	@Override
 	public void guardaItem(Item item) {
 		mochila.adicionaItem(item);
 	}

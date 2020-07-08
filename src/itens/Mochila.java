@@ -1,4 +1,4 @@
-package principal;
+package itens;
 
 import itens.*;
 

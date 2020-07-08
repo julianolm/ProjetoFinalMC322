@@ -1,4 +1,4 @@
-package principal;
+package personagens.jogaveis;
 
 public class Feiticeiro extends Heroi {
 

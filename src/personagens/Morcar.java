@@ -1,4 +1,4 @@
-package principal;
+package personagens;
 
 public class Morcar {
 
