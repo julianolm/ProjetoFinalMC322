@@ -15,6 +15,6 @@
 		
 		-Feiticeiro:
 
-		Morcar:
+		-Morcar:
 		
 		
