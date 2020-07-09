@@ -1,7 +1,7 @@
 package personagens.jogaveis;
 
-import itens.Arma;
 import itens.Item;
+import itens.armas.Arma;
 
 public interface Jogavel {
 
