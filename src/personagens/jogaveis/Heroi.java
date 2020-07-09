@@ -1,6 +1,7 @@
 package personagens.jogaveis;
 
 import itens.*;
+import itens.armas.Arma;
 
 public abstract class Heroi implements Jogavel {
 	private String nome;
