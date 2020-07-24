@@ -6,10 +6,8 @@ public abstract class HeroiMagico extends Heroi {
 	private LivroDeFeiticos livro;
 	
 	
-	public HeroiMagico(String nome, int numDadosDeAtaque, int numDaDosDeDefesa, int pontosDeVida,
-			int pontosDeInteligencia) {
-		super(nome, numDadosDeAtaque, numDaDosDeDefesa, pontosDeVida, pontosDeInteligencia);
-		
+	public HeroiMagico(String nome) {
+		super(nome);
 		livro = new LivroDeFeiticos();
 	}
 

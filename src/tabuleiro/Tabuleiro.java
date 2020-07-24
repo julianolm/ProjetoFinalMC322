@@ -6,6 +6,7 @@ import java.util.Scanner;
 import java.util.ArrayList;
 
 import personagens.jogaveis.*;
+import personagens.*; // - Juliano adicionou isso
 
 public final class Tabuleiro {
 	private int largura;
@@ -101,10 +102,10 @@ public final class Tabuleiro {
 		return false;
 	}
 	
-	public void removerMonstro
+//	public void removerMonstro
 	
 	public Monstro getMonstroEm(int i, int j) {
-		for (Montro m : this.monstros) {
+		for (Monstro m : this.monstros) {  // - Juliano alterou isso
 			if (m.getLinha() == i && m.getColuna == j) {
 				return m;
 			}

@@ -5,29 +5,41 @@ import itens.armas.Arma;
 
 public abstract class Heroi implements Jogavel {
 	private String nome;
-	private int numDadosAtaque;
-	private int numDadosDefesa;
-	private int pontosDeVida;
-	private int pontosDeInteligencia;
+	protected int numDadosAtaque;
+	protected int numDadosDefesa;
+	protected int pontosDeVida;
+	protected int pontosDeInteligencia;
+	int posI;
+	int posJ;
 
 	private Mochila mochila; // A mochila carrega os itens nao utilizados
 	private Item armadura; // Armadura utilizada
 	private Arma armas[]; // Armazenar as duas armas utilizadas em um array de duas posicoes
 
-	public Heroi(String nome, int numDadosDeAtaque, int numDaDosDeDefesa, int pontosDeVida, int pontosDeInteligencia) {
-		this.nome = nome;
-		this.numDadosAtaque = numDadosDeAtaque;
-		this.numDadosDefesa = numDadosDefesa;
-		this.pontosDeVida = pontosDeVida;
-		this.pontosDeInteligencia = pontosDeInteligencia;
+//	public Heroi(String nome, int numDadosDeAtaque, int numDaDosDeDefesa, int pontosDeVida, int pontosDeInteligencia) {
+//		this.nome = nome;
+//		this.numDadosAtaque = numDadosDeAtaque;
+//		this.numDadosDefesa = numDadosDefesa;
+//		this.pontosDeVida = pontosDeVida;
+//		this.pontosDeInteligencia = pontosDeInteligencia;
+//
+//		// Ainda nao tem um construtor implementado para mochila; chamando esse aqui
+//		// provisoriamente;
+//		mochila = new Mochila();
+//		armas = new Arma[2];
+//
+//	}
 
+	public Heroi(String nome) {
+		this.nome = nome;
+		posI = 10;
+		posJ = 13;
 		// Ainda nao tem um construtor implementado para mochila; chamando esse aqui
 		// provisoriamente;
 		mochila = new Mochila();
 		armas = new Arma[2];
-
 	}
-
+	
 	@Override
 	public void adicionaArma(Arma arma) {
 		if (armas[0] == null) // Se a primeira mao nao esta com nenhuma arma, adiciona a arma a ela.
@@ -47,5 +59,15 @@ public abstract class Heroi implements Jogavel {
 	public void guardaItem(Item item) {
 		mochila.adicionaItem(item);
 	}
+	
+	public int getI() {
+		return this.posI;
+	}
+	
+	public int getJ() {
+		return this.posJ;
+	}
+	
+	
 
 }

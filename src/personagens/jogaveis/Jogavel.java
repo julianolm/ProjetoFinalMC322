@@ -7,5 +7,6 @@ public interface Jogavel {
 
 	public void adicionaArma(Arma arma);
 	public void guardaItem(Item item);
-	
+	public int getI();
+	public int getJ();
 }
