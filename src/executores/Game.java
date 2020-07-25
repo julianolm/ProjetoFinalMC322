@@ -2,6 +2,7 @@ package executores;
 
 import personagens.*;
 import personagens.jogaveis.*;
+import tabuleiro.*;
 
 import java.util.Scanner;
 
@@ -17,11 +18,15 @@ public class Game {
 		System.out.println("Game started!\n");
 		
 		initialConfig(); //esse metodo recebe as entradas iniciais que determinam o tipo do heroi e seu nome
-
+		Tabuleiro mapa = new Tabuleiro(26, 19);
+		mapa.addHeroi(heroi);
+		
+		
 		while (!exit) {
 			//drawBoard();
 			//readInput();
 			//updateBoard();
+			mapa.printTabuleiro();
 			exit=true; // so p rodar e ver se ta funcionando
 		}
 

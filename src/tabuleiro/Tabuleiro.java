@@ -5,8 +5,8 @@ import java.io.FileNotFoundException;
 import java.util.Scanner;
 import java.util.ArrayList;
 
-import excecoes.*;
-import personagens.monstros.*;
+//import excecoes.*;
+import personagens.*;
 import personagens.jogaveis.*;
 
 public final class Tabuleiro {
@@ -19,7 +19,8 @@ public final class Tabuleiro {
 	private Corredor[] corredores;
 
 	private ArrayList<Monstro> monstros = new ArrayList<Monstro>();
-	private ArrayList<Tesouro> tesouros = new ArrayList<Tesouro>();
+//	private ArrayList<Tesouro> tesouros = new ArrayList<Tesouro>();
+	private Jogavel heroi;
 
 	// ArrayList<Armadilha> armadilhas;
 
@@ -27,14 +28,35 @@ public final class Tabuleiro {
 	 * Construtor Assinatura 1: - Gera um tabuleiro aleatório. Têm como parâmetros
 	 * apenas largura e altura do tabuleiro.
 	 */
-	public Tabuleiro(int largura, int altura) {
-		this.largura = largura;
-		this.altura = altura;
+	public Tabuleiro() {
+		this.largura = 26;
+		this.altura = 19;
 
 		corredores = new Corredor[12];
-		salas = new Sala[16];
+		salas = new Sala[15];
 
-		this.matriz = new int[altura][largura];
+//		this.matriz = new int[altura][largura];
+		
+	{	{-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-},
+		{-,#,#,#,#,#,#,#,#,#,#,#,-,-,#,#,#,#,#,P,#,#,#,#,#,-},
+		{-,#,-,-,#,-,-,-,#,-,-,#,-,-,#,-,-,#---#--#-},
+		{-#--P---#--#--P--#---#--#-},
+		{-#--#---P--#--#--#---#--#-},
+		{-#--#---#--#--#--#---#--#-},
+		{-####P######--########P##-},
+		{-P------#--------#------P-},
+		{-#------#-##P###-#------#-},
+		{-########-#----#-########-},
+		{----------#----#----------},
+		{-########-#----#-########-},
+		{-#------#-######-#------#-},
+		{-#------#--------#------#-},
+		{-######P#P##--####P######-},
+		{-P----#----#--#----#----P-},
+		{-#----#----#--#----#----#-},
+		{-########P##--###P#######-},
+		{--------------------------}	}
+		
 
 		randomize();
 	}
@@ -45,9 +67,7 @@ public final class Tabuleiro {
 	 * tabuleiro.
 	 */
 	public Tabuleiro(String nome_arquivo) {
-
 		this.matriz = new int[altura][largura];
-
 		try {
 			File arquivo = new File(nome_arquivo);
 			Scanner leitor = new Scanner(arquivo);
@@ -75,15 +95,20 @@ public final class Tabuleiro {
 	private void randomize() {
 		return;
 	}
-
-	public void atualizarPosPersonagem(SerVivo p, int novoI, int novoJ) {
-		if (posicaoExiste(novoI, novoJ) && !posicaoOcupada(novoI, novoJ)) {
-			apagarCela(p.getI(), p.getJ());
-			matriz[novoI][novoJ] = p.simbolo();
-		} else {
-			throw new PosicaoInvalidaException("Posicao invalida");
-		}
+	
+	//metodo que adiciona uma referencia para o heroi ao mapa
+	public void addHeroi(Jogavel heroi) {
+		this.heroi = heroi;
 	}
+
+//	public void atualizarPosPersonagem(SerVivo p, int novoI, int novoJ) {
+//		if (posicaoExiste(novoI, novoJ) && !posicaoOcupada(novoI, novoJ)) {
+//			apagarCela(p.getI(), p.getJ());
+//			matriz[novoI][novoJ] = p.simbolo();
+//		} else {
+//			throw new PosicaoInvalidaException("Posicao invalida");
+//		}
+//	}
 
 	private boolean posicaoExiste(int i, int j) {
 		if (i >= 0 && i < altura && j >= 0 && j < largura) {
@@ -99,73 +124,70 @@ public final class Tabuleiro {
 		return false;
 	}
 
-	public void print_tabuleiro() {
+	public void printTabuleiro() {
 		int i;
 		for (i = 0; i < this.altura; i++) {
 			System.out.println(this.matriz[i].toString());
 		}
 	}
 
-	public ArrayList<Monstro> getMonstrosVisiveis(Sala s) {
+//	public ArrayList<Monstro> getMonstrosVisiveis(Sala s) {
+//		ArrayList<Monstro> monstrosVisiveis = new ArrayList<Monstro>();
+//		for (Monstro m : this.monstros) {
+//			if (s.contem(heroi.getI(), heroi.getJ())) {
+//				monstrosVisiveis.add(m);
+//			}
+//		}
+//		return monstrosVisiveis;
+//	}
 
-		ArrayList<Monstro> monstrosVisiveis = new ArrayList<Monstro>();
-
-		for (Monstro m : this.monstros) {
-			if (s.contem(heroi.getI(), heroi.getJ())) {
-				monstrosVisiveis.add(m);
-			}
-		}
-
-		return monstrosVisiveis;
-	}
-
-	public ArrayList<Monstro> getMonstrosVisiveis(Heroi heroi, Corredor c) {
-
-		ArrayList<Monstro> monstrosVisiveis = new ArrayList<Monstro>();
-
-		// Busca por monstros em um corredor horizontal
-		if (c.isHorizontal()) {
-			// procura por monstros à direita do herói, adiciona apenas o primeiro que
-			// encontrar
-			for (int j = heroi.getJ() + 1; j < this.largura; j++) {
-				Monstro m = getMonstroEm(heroi.getI(), j);
-				if (m != null) {
-					monstrosVisiveis.add(m);
-					break;
-				}
-			}
-			// procura por monstros à esquerda do herói, adiciona apenas o primeiro que
-			// encontrar
-			for (int j = heroi.getJ() - 1; j >= 0; j--) {
-				Monstro m = getMonstroEm(heroi.getI(), j);
-				if (m != null) {
-					monstrosVisiveis.add(m);
-					break;
-				}
-			}
-			// Busca por monstros em um corredor vertical
-		} else {
-			// procura por monstros ao norte do herói, adiciona apenas o primeiro que
-			// encontrar
-			for (int i = heroi.getI() + 1; i < this.altura; i++) {
-				Monstro m = getMonstroEm(i, heroi.getJ());
-				if (m != null) {
-					monstrosVisiveis.add(m);
-					break;
-				}
-			}
-			// procura por monstros ao sul do herói, adiciona apenas o primeiro que
-			// encontrar
-			for (int i = heroi.getI() - 1; i >= 0; i--) {
-				Monstro m = getMonstroEm(i, heroi.getJ());
-				if (m != null) {
-					monstrosVisiveis.add(m);
-					break;
-				}
-			}
-		}
-
-		return monstrosVisiveis;
-	}
+//	public ArrayList<Monstro> getMonstrosVisiveis(Heroi heroi, Corredor c) {
+//
+//		ArrayList<Monstro> monstrosVisiveis = new ArrayList<Monstro>();
+//
+//		// Busca por monstros em um corredor horizontal
+//		if (c.isHorizontal()) {
+//			// procura por monstros à direita do herói, adiciona apenas o primeiro que
+//			// encontrar
+//			for (int j = heroi.getJ() + 1; j < this.largura; j++) {
+//				Monstro m = getMonstroEm(heroi.getI(), j);
+//				if (m != null) {
+//					monstrosVisiveis.add(m);
+//					break;
+//				}
+//			}
+//			// procura por monstros à esquerda do herói, adiciona apenas o primeiro que
+//			// encontrar
+//			for (int j = heroi.getJ() - 1; j >= 0; j--) {
+//				Monstro m = getMonstroEm(heroi.getI(), j);
+//				if (m != null) {
+//					monstrosVisiveis.add(m);
+//					break;
+//				}
+//			}
+//			// Busca por monstros em um corredor vertical
+//		} else {
+//			// procura por monstros ao norte do herói, adiciona apenas o primeiro que
+//			// encontrar
+//			for (int i = heroi.getI() + 1; i < this.altura; i++) {
+//				Monstro m = getMonstroEm(i, heroi.getJ());
+//				if (m != null) {
+//					monstrosVisiveis.add(m);
+//					break;
+//				}
+//			}
+//			// procura por monstros ao sul do herói, adiciona apenas o primeiro que
+//			// encontrar
+//			for (int i = heroi.getI() - 1; i >= 0; i--) {
+//				Monstro m = getMonstroEm(i, heroi.getJ());
+//				if (m != null) {
+//					monstrosVisiveis.add(m);
+//					break;
+//				}
+//			}
+//		}
+//
+//		return monstrosVisiveis;
+//	}
 }
 

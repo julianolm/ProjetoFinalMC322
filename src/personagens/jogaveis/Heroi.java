@@ -53,6 +53,7 @@ public abstract class Heroi implements Jogavel {
 	}
 	
 	
+	
 	// guardaItem eh um metodo de Heroi para guardar itens na mochila.
 	// A implementacao deste metodo usa o metodo adicionaItem da classe Mochila.
 	@Override
