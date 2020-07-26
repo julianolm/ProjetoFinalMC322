@@ -22,4 +22,12 @@
 		A classe tabuleiro guarda referencia para todos os objetos que devem ser impressos no mapa
 		e implementa os metodos que permitem que o heroi interaja diretamente com o mundo ao seu
 		redor, entregando-lhe referencias para o que lhe eh visivel ou alcancavel. O heroi guarda
-		uma referencia para o mapa.
+		uma referencia para o mapa. A Classe Tabuleiro também guarda instâncias das classes corredor e
+		sala.
+		
+		As classes Corredor e Sala herdam da superclasse abstrata "AreaRetangular". Os objetos dessas
+		classes são construídos da mesma maneira: Definindo-se dois pontos (i,j) do canto superior
+		esquerdo da área e do canto inferior direito. Elas diferem apenas no modo como retornam a visibilidade
+		dos seus elementos interagíveis.
+		
+		
