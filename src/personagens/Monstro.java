@@ -16,7 +16,7 @@ public abstract class Monstro extends SerVivo{
 	public abstract void ataca();
 	
 	public int proximidadeDoHeroi() {
-		return  (int) (Math.pow(this.getX() - heroi.getX(), 2) + Math.pow(this.getY() - heroi.getY(), 2) ) ;
+		return  (int) (Math.pow(this.getI() - heroi.getI(), 2) + Math.pow(this.getJ() - heroi.getJ(), 2) ) ;
 	}
 
 	public Heroi getHeroi() {

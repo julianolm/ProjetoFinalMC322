@@ -12,6 +12,11 @@ public class Corredor extends AreaRetangular {
 			horizontal = false;
 		}
 	}
+
+	public boolean isHorizontal() {
+		// TODO Auto-generated method stub
+		return false;
+	}
 	
 	
 	

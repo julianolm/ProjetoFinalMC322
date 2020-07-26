@@ -19,5 +19,9 @@ public class Feiticeiro extends HeroiMagico {
 		aprendeMagia(new itens.magias.Teleport((SerVivo) this));
 	}
 	
+	public char simbolo() {
+		return 'F';
+	}
+	
 	
 }
