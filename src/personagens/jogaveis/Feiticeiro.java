@@ -9,18 +9,14 @@ package personagens.jogaveis;
 public class Feiticeiro extends HeroiMagico {
 
 	public Feiticeiro(String nome) {
-		super(nome);
-		this.numDadosAtaque = 1;
-		this.numDadosDefesa = 2;
-		this.pontosDeVida = 4;
-		this.pontosDeInteligencia = 6;
+		super(nome, 1, 2, 4, 6);
 		
 		adicionaArma(new itens.armas.Punhal());
 		adicionaArma(new itens.armas.Punhal());
 		adicionaArma(new itens.armas.Punhal());
 		
-		aprendeMagia(new itens.magias.FireBall());
-		aprendeMagia(new itens.magias.Teleport());
+		aprendeMagia(new itens.magias.FireBall((SerVivo) this));
+		aprendeMagia(new itens.magias.Teleport((SerVivo) this));
 	}
 	
 	

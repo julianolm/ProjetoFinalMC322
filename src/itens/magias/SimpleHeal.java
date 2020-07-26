@@ -1,5 +1,18 @@
 package itens.magias;
 
-public class SimpleHeal extends Magia {
+import personagens.jogaveis.SerVivo;
+
+public class SimpleHeal extends MagiaComum {
+
+	
+	public SimpleHeal(SerVivo lancador) {
+		super(lancador);
+	}
+
+	@Override
+	public void agir() {
+		lancador.mudaVida(dado(6));
+		return;
+	}
 
 }

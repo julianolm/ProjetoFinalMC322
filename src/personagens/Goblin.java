@@ -36,6 +36,21 @@ public class Goblin extends Monstro {
 	@Override
 	public void movimenta() {
 		// TODO Auto-generated method stub
+		int moveX = 0;
+		int moveY = 0;
+		if (this.getX() > this.getHeroi().getX()) {
+			moveX = -1;
+		}else if((this.getX() < this.getHeroi().getX()) ) {
+			moveX = 1;
+		}
+		
+		if (this.getY() > this.getHeroi().getY()) {
+			moveY = -1;
+		}else if((this.getY() < this.getHeroi().getY()) ) {
+			moveY = 1;
+		}
+		
+		this.setPosicao(this.getX(moveX), this.getY(moveY));
 		
 	}
 

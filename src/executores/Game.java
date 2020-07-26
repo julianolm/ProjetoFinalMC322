@@ -18,7 +18,7 @@ public class Game {
 		System.out.println("Game started!\n");
 		
 		initialConfig(); //esse metodo recebe as entradas iniciais que determinam o tipo do heroi e seu nome
-		Tabuleiro mapa = new Tabuleiro(26, 19);
+		Tabuleiro mapa = new Tabuleiro("./src/executores/mapa-default.txt");
 		mapa.addHeroi(heroi);
 		
 		

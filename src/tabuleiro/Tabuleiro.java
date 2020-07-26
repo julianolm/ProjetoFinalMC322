@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 //import excecoes.*;
 import personagens.*;
@@ -13,7 +14,7 @@ public final class Tabuleiro {
 	private int largura;
 	private int altura;
 
-	private int[][] matriz;
+	private ArrayList<ArrayList<Integer>> matriz;
 
 	private Sala[] salas;
 	private Corredor[] corredores;
@@ -31,12 +32,13 @@ public final class Tabuleiro {
 	public Tabuleiro() {
 		this.largura = 26;
 		this.altura = 19;
+		ArrayList<ArrayList<Integer>> matriz ; //
 
 		corredores = new Corredor[12];
 		salas = new Sala[15];
 
 //		this.matriz = new int[altura][largura];
-		
+/*		
 	{	{-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-},
 		{-,#,#,#,#,#,#,#,#,#,#,#,-,-,#,#,#,#,#,P,#,#,#,#,#,-},
 		{-,#,-,-,#,-,-,-,#,-,-,#,-,-,#,-,-,#---#--#-},
@@ -57,7 +59,7 @@ public final class Tabuleiro {
 		{-########P##--###P#######-},
 		{--------------------------}	}
 		
-
+*/
 		randomize();
 	}
 
@@ -67,30 +69,47 @@ public final class Tabuleiro {
 	 * tabuleiro.
 	 */
 	public Tabuleiro(String nome_arquivo) {
-		this.matriz = new int[altura][largura];
+		
+		this.matriz = new ArrayList<ArrayList<Integer>>();
 		try {
 			File arquivo = new File(nome_arquivo);
 			Scanner leitor = new Scanner(arquivo);
 			int i = 0;
 
 			while (leitor.hasNextLine()) {
+				this.matriz.add(new ArrayList<Integer>());
 				String linha = leitor.nextLine();
-				int j = 0;
+				
 				for (char c : linha.toCharArray()) {
-					this.matriz[i][j] = c;
-					j++;
+					this.matriz.get(i).add((int) c);
 				}
 				i++;
 			}
-
+			this.altura = this.matriz.size();
+			this.largura = this.matriz.get(0).size();
 			leitor.close();
 
 		} catch (FileNotFoundException e) {
 			System.out.println("Arquivo de mapa não encontrado.");
 			e.printStackTrace();
+			File curDir = new File(".");
+	        getAllFiles(curDir);
 		}
 
 	}
+	
+	private static void getAllFiles(File curDir) {
+
+        File[] filesList = curDir.listFiles();
+        for(File f : filesList){
+            if(f.isDirectory())
+                System.out.println(f.getName());
+            if(f.isFile()){
+                System.out.println(f.getName());
+            }
+        }
+
+    }
 
 	private void randomize() {
 		return;
@@ -110,24 +129,28 @@ public final class Tabuleiro {
 //		}
 //	}
 
-	private boolean posicaoExiste(int i, int j) {
+	public boolean posicaoExiste(int i, int j) {
 		if (i >= 0 && i < altura && j >= 0 && j < largura) {
 			return true;
 		}
 		return false;
 	}
 
-	private boolean posicaoOcupada(int i, int j) {
-		if (matriz[i][j] != '-') {
+	public boolean posicaoOcupada(int i, int j) {
+		if (matriz.get(i).get(j) != '-') {
 			return true;
 		}
 		return false;
 	}
 
 	public void printTabuleiro() {
+		
 		int i;
 		for (i = 0; i < this.altura; i++) {
-			System.out.println(this.matriz[i].toString());
+			for (int j = 0; j < this.largura; j++) {
+				System.out.print(Character.toChars(this.matriz.get(i).get(j)));
+			} 
+			System.out.println("");
 		}
 	}
 
