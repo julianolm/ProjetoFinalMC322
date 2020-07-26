@@ -1,6 +1,7 @@
 package personagens;
 
 import personagens.jogaveis.Heroi;
+import personagens.jogaveis.Jogavel;
 
 import java.util.ArrayList;
 
@@ -10,7 +11,7 @@ public class Goblin extends Monstro {
 	private int numeroDePunhais;
 	private ArrayList<Punhal> punhais;
 	
-	public Goblin(int pontosDeVida, int pontosDeInteligencia, Heroi heroi, int numeroDePunhais) {
+	public Goblin(int pontosDeVida, int pontosDeInteligencia, Jogavel heroi, int numeroDePunhais) {
 		super(pontosDeVida, pontosDeInteligencia, heroi);
 		// TODO Auto-generated constructor stub
 		this.numeroDePunhais = numeroDePunhais;

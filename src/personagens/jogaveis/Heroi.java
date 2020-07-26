@@ -8,6 +8,8 @@ public abstract class Heroi extends SerVivo implements Jogavel {
 	private String nome;
 	private int numDadosAtaque;
 	private int numDadosDefesa;
+	private int vida;
+	private int inteligencia;
 	
 
 	private Mochila mochila; // A mochila carrega os itens nao utilizados
@@ -42,11 +44,17 @@ public abstract class Heroi extends SerVivo implements Jogavel {
 	}
 	
 	
+	
+	
 	// guardaItem eh um metodo de Heroi para guardar itens na mochila.
 	// A implementacao deste metodo usa o metodo adicionaItem da classe Mochila.
 	@Override
 	public void guardaItem(Item item) {
 		mochila.adicionaItem(item);
+	}
+	
+	public char simbolo() {
+		return 'H';
 	}
 
 }
