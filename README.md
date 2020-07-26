@@ -28,6 +28,7 @@
 		As classes Corredor e Sala herdam da superclasse abstrata "AreaRetangular". Os objetos dessas
 		classes são construídos da mesma maneira: Definindo-se dois pontos (i,j) do canto superior
 		esquerdo da área e do canto inferior direito. Elas diferem apenas no modo como retornam a visibilidade
-		dos seus elementos interagíveis.
+		dos seus elementos interagíveis. A Sala retorna todos os monstros enquanto o Corredor calculará
+		os monstros que estão no campo visível do jogador.
 		
 		
