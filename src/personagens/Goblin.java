@@ -5,20 +5,23 @@ import personagens.jogaveis.Jogavel;
 
 import java.util.ArrayList;
 
+import excecoes.PosInvalidaException;
+import itens.FacesCombate;
+import itens.LancaDado;
 import itens.armas.Punhal;
 public class Goblin extends Monstro {
 
 	private int numeroDePunhais;
 	private ArrayList<Punhal> punhais;
-	
-	public Goblin(int pontosDeVida, int pontosDeInteligencia, Jogavel heroi, int numeroDePunhais) {
+	private final int NUM_ATAQUE = 1;
+	public Goblin(int pontosDeVida, int pontosDeInteligencia, Heroi heroi, int numeroDePunhais) {
 		super(pontosDeVida, pontosDeInteligencia, heroi);
 		// TODO Auto-generated constructor stub
 		this.numeroDePunhais = numeroDePunhais;
 		
-		this.punhais = new ArrayList<Punhal>(this.numeroDePunhais);
+		this.punhais = new ArrayList<Punhal>();
 		for (int i = 0; i < this.numeroDePunhais; i++) {
-			this.punhais.set(i, new Punhal());
+			this.punhais.add(new Punhal());
 		}
 	}
 	
@@ -27,9 +30,9 @@ public class Goblin extends Monstro {
 		// TODO Auto-generated constructor stub
 		this.numeroDePunhais = 5;
 		
-		this.punhais = new ArrayList<Punhal>(this.numeroDePunhais);
+		this.punhais = new ArrayList<Punhal>();
 		for (int i = 0; i < this.numeroDePunhais; i++) {
-			this.punhais.set(i, new Punhal());
+			this.punhais.add(new Punhal());
 		}
 		
 	}
@@ -39,26 +42,53 @@ public class Goblin extends Monstro {
 		// TODO Auto-generated method stub
 		int moveX = 0;
 		int moveY = 0;
-		if (this.getX() > this.getHeroi().getX()) {
+		
+		if (this.getI() > this.getHeroi().getI()) {
 			moveX = -1;
-		}else if((this.getX() < this.getHeroi().getX()) ) {
+		}else if((this.getI() < this.getHeroi().getI()) ) {
 			moveX = 1;
 		}
 		
-		if (this.getY() > this.getHeroi().getY()) {
+		if (this.getJ() > this.getHeroi().getJ()) {
 			moveY = -1;
-		}else if((this.getY() < this.getHeroi().getY()) ) {
+		}else if((this.getJ() < this.getHeroi().getJ()) ) {
 			moveY = 1;
 		}
 		
-		this.setPosicao(this.getX(moveX), this.getY(moveY));
+		try {
+			this.getTabuleiro().atualizarPosPersonagem(this, this.getI(moveY), this.getJ(moveX));
+		} catch (PosInvalidaException e) {
+			// TODO Auto-generated catch block
+			
+		}
 		
 	}
 
 	@Override
 	public void ataca() {
-		// TODO Auto-generated method stub
+		for (int j = 0; j < this.numeroDePunhais; j++) {
+			int at = 0;
+			int def = 0;
+			for (int i = 0; i < this.NUM_ATAQUE; i++) {
+				if (LancaDado.DadoCombate() == FacesCombate.CAVEIRA) {
+					at++;
+				}
+			}
+			for (int i = 0; i < this.getHeroi().getDadosDefesa(); i++) {
+				if (LancaDado.DadoCombate() == FacesCombate.ESC_HEROI) {
+					def++;
+				}
+			}
+			this.getHeroi().mudaVida((def-at < 0)?(def-at):(0));
+		}
 		
+		
+	}
+
+	@Override
+	public char simbolo() {
+		// TODO Auto-generated method stub
+		return 'G';
 	}
 
 	

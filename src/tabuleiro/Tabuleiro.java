@@ -14,7 +14,8 @@ public final class Tabuleiro {
 	private int largura;
 	private int altura;
 
-	private char[][] matriz;
+//	private char[][] matriz;
+	private ArrayList<ArrayList<Character>> matriz;
 	String[] mapa_default = { "--------------------------", "-###########--#####P#####-", "-#--#---#--#--#--#---#--#-",
 			"-#--P---#--#--P--#---#--#-", "-#--#---P--#--#--#---#--#-", "-#--#---#--#--#--#---#--#-",
 			"-####P######--########P##-", "-P------#--------#------P-", "-#------#-##P###-#------#-",
@@ -26,9 +27,9 @@ public final class Tabuleiro {
 	private Sala[] salas;
 	private Corredor[] corredores;
 
-	private ArrayList<Monstro> monstros = new ArrayList<Monstro>();
+	private ArrayList<Monstro> monstros; 
 //	private ArrayList<Tesouro> tesouros = new ArrayList<Tesouro>();
-	private Jogavel heroi;
+	private Heroi heroi;
 
 	// ArrayList<Armadilha> armadilhas;
 
@@ -39,16 +40,18 @@ public final class Tabuleiro {
 	public Tabuleiro() {
 		this.largura = 26;
 		this.altura = 19;
-		char[][] matriz; //
-
+		monstros = new ArrayList<Monstro>();
 		corredores = new Corredor[12];
 		salas = new Sala[15];
 
-		this.matriz = new char[altura][largura];
+		this.matriz = new ArrayList<ArrayList<Character>>();
 
 		int i = 0;
 		for (String linha : mapa_default) {
-			this.matriz[i] = linha.toCharArray();
+			this.matriz.set(i, new ArrayList<Character>());
+			for (char c : linha.toCharArray()) {
+				this.matriz.get(i).add(c);
+			}
 			i++;
 		}
 
@@ -61,28 +64,60 @@ public final class Tabuleiro {
 	 * tabuleiro.
 	 */
 	public Tabuleiro(String nome_arquivo) {
+		this.largura = 26;
+		this.altura = 19;
+		monstros = new ArrayList<Monstro>();
+		corredores = new Corredor[12];
+		salas = new Sala[15];
 
+		this.matriz = new ArrayList<ArrayList<Character>>();
+
+		int i = 0;
+		for (String linha : mapa_default) {
+			this.matriz.add(new ArrayList<Character>());
+			for (char c : linha.toCharArray()) {
+				this.matriz.get(i).add(c);
+			}
+			i++;
+		}
+
+		randomize();
 		try {
 			File arquivo = new File(nome_arquivo);
 			Scanner leitor = new Scanner(arquivo);
+			
+			monstros = new ArrayList<Monstro>();
 			while (leitor.hasNextLine()) {
 				String[] linha = leitor.nextLine().split(" ");
-				char[] vetor = new char[3];
-				for (int i = 0; i < linha.length; i++) {
-					vetor[i] = (char) Integer.parseInt(linha[i]);
-				}
+//				String[] vetor = new char[3];
+//				for (int i = 0; i < linha.length; i++) {
+//					vetor[i] = (char) Integer.parseInt(linha[i]);
+//				}
+				
 				Monstro m;
-				if(vetor[0] == 'G') {
-					m = new Goblin(1, 2, this.heroi, 2);
+				if(linha[0].equals("G")) {
+					m = new Goblin(1, 2, this.heroi);
+					m.setTabuleiro(this);
+					m.setPosicao(Integer.parseInt(linha[1]), Integer.parseInt(linha[2]));
+					this.monstros.add(m);
+					
 				} 
-				else if (vetor[0] == 'E') {
-					m = new EsqueletoComum(1, 2, this.heroi, 2);
+				else if (linha[0].equals("E")) {
+					m = new EsqueletoComum(1, 2, this.heroi);
+					m.setTabuleiro(this);
+					m.setPosicao(Integer.parseInt(linha[1]), Integer.parseInt(linha[2]));
+					
+					this.monstros.add(m);
+					
 				}
-				else if (vetor[0] == 'M') {
-					m = new EsqueletoMago(1, 2, this.heroi, 2);
+				else if (linha[0].equals("M")) {
+					m = new EsqueletoMago(1, 2, this.heroi);
+					m.setTabuleiro(this);
+					m.setPosicao(Integer.parseInt(linha[1]), Integer.parseInt(linha[2]));
+					this.monstros.add(m);
 				}
 				
-				this.monstros.add(m);
+				
 			}
 			leitor.close();
 		} catch (FileNotFoundException e) {
@@ -92,19 +127,30 @@ public final class Tabuleiro {
 
 	}
 
+	public void mudarValorMatriz(int i, int j, char valor) {
+		this.matriz.get(i).set(j, valor);
+		
+	}
+	
 	private void randomize() {
 		return;
 	}
 
 	// metodo que adiciona uma referencia para o heroi ao mapa
-	public void addHeroi(Jogavel heroi) {
+	public void addHeroi(Heroi heroi) {
 		this.heroi = heroi;
+		this.heroi.setTabuleiro(this); 
+		this.heroi.setPosicao(13, 9);
+		for (int i = 0; i < this.monstros.size(); i++) {
+			this.monstros.get(i).setHeroi(this.heroi);
+		}
+		this.matriz.get(heroi.getI()).set(heroi.getJ(), heroi.simbolo());
 	}
 
 	public void atualizarPosPersonagem(SerVivo p, int novoI, int novoJ) throws PosInvalidaException {
 		if (posicaoExiste(novoI, novoJ) && !posicaoOcupada(novoI, novoJ)) {
 			apagarCela(p.getI(), p.getJ());
-			matriz[novoI][novoJ] = p.simbolo();
+			matriz.get(novoI).set(novoJ, p.simbolo());
 		} else {
 			throw new PosInvalidaException("Posicao invalida");
 		}
@@ -112,6 +158,7 @@ public final class Tabuleiro {
 
 	private void apagarCela(int i, int j) {
 		// TODO Auto-generated method stub
+		matriz.get(i).set(j, '-');
 
 	}
 
@@ -123,32 +170,30 @@ public final class Tabuleiro {
 	}
 
 	public boolean posicaoOcupada(int i, int j) {
-		if (matriz[i][j] != '-') {
+		if (matriz.get(i).get(j) != '-') {
 			return true;
 		}
 		return false;
 	}
 
 	public void printTabuleiro() {
-
-		int i;
-		for (i = 0; i < this.altura; i++) {
-			for (int j = 0; j < this.largura; j++) {
-				System.out.print(this.matriz[i][j]);
+		System.out.println(this.matriz.size());
+		System.out.println(this.matriz.get(0).size());
+		
+		
+		for (int i = 0; i < this.matriz.size(); i++) {
+			for (int j = 0; j < this.matriz.get(i).size(); j++) {
+				System.out.print(this.matriz.get(i).get(j));
 			}
 			System.out.println("");
 		}
 	}
 
-//	public ArrayList<Monstro> getMonstrosVisiveis(Sala s) {
-//		ArrayList<Monstro> monstrosVisiveis = new ArrayList<Monstro>();
-//		for (Monstro m : this.monstros) {
-//			if (s.contem(heroi.getI(), heroi.getJ())) {
-//				monstrosVisiveis.add(m);
-//			}
-//		}
-//		return monstrosVisiveis;
-//	}
+	public void movimentaMonstros() {
+		for (int i = 0; i < monstros.size(); i++) {
+			monstros.get(i).movimenta();
+		}
+	}
 
 	public ArrayList<Monstro> getMonstrosVisiveis(Heroi heroi, Corredor c) {
 
@@ -201,6 +246,11 @@ public final class Tabuleiro {
 
 	private Monstro getMonstroEm(int i, int j) {
 		// TODO Auto-generated method stub
+		for (Monstro m: this.monstros) {
+			if (m.getI() == i && m.getJ() == j) {
+				return m;
+			}
+		} 
 		return null;
 	}
 }

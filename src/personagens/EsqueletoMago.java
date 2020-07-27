@@ -19,4 +19,10 @@ public class EsqueletoMago extends Esqueleto {
 		
 	}
 
+	@Override
+	public char simbolo() {
+		// TODO Auto-generated method stub
+		return 'M';
+	}
+
 }

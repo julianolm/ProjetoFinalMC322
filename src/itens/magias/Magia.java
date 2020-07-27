@@ -12,7 +12,7 @@ public abstract class Magia {
 	 * retorno: Número entre 1 e lados
 	 */
 	public int dado(int lados) {
-		return ((ran.nextInt() % lados) + 1);
+		return ((ran.nextInt(lados)) + 1);
 	}	
 	public Magia(SerVivo lancador){
 		ran = new Random();

@@ -20,16 +20,20 @@ public abstract class SerVivo {
 		this.pontosDeVida = pontosDeVida;
 		this.pontosDeInteligencia = pontosDeInteligencia;
 		this.tabuleiro = tabuleiro;
+		this.posicao = new int[2];
 	}
 	public SerVivo(int pontosDeVida, int pontosDeInteligencia) {
 		this.pontosDeVida = pontosDeVida;
 		this.pontosDeInteligencia = pontosDeInteligencia;
-		
+		this.posicao = new int[2];
 	}
 	
 	public void setPosicao(int i, int j) {
 		this.posicao[0] = i;
 		this.posicao[1] = j;
+		if (this.tabuleiro != null) {
+			tabuleiro.mudarValorMatriz(i, j, this.simbolo());
+		}
 	}
 	
 	public void mover(int passos, char direcao) throws PosInvalidaException {

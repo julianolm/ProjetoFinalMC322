@@ -15,7 +15,7 @@ public class Feiticeiro extends HeroiMagico {
 		adicionaArma(new itens.armas.Punhal());
 		adicionaArma(new itens.armas.Punhal());
 		
-		aprendeMagia(new itens.magias.FireBall((SerVivo) this));
+		aprendeMagia(new itens.magias.FireBall((SerVivo) this, 'H'));
 		aprendeMagia(new itens.magias.Teleport((SerVivo) this));
 	}
 	
